@@ -4,7 +4,7 @@ set -e
 # root check
 [ "$EUID" -ne 0 ] && exit 1
 
-echo "Installing Ddos Protection Layer 4 And Layer7...."
+echo "Installing Proxmox Network Utilities...."
 
 USER_NAME="vm"
 
